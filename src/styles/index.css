@@ -1,4 +1,4 @@
-
+@import "./fonts.css";
 
 html {
 	width: 100%;
@@ -10,7 +10,7 @@ body {
 	min-height: 100%;
 }
 
-#index__index__root___1GCIF___oLsQS {
+#root {
 	width: 100%;
 }
 
@@ -18,9 +18,6 @@ a, img {
 	outline: none;
 }
 
-.index__index__clear___1Oc7y___1ilRk {
+.clear {
 	clear: both;
 }
-
-
-/*# sourceMappingURL=styles.css.map*/
