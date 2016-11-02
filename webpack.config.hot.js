@@ -1,4 +1,6 @@
 const NODE_ENV = process.env.NODE_ENV || 'development';
+const PORT = process.env.PORT || '8080';
+console.log("Listening on", PORT);
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var RemoveWebpackPlugin = require('remove-webpack-plugin');
@@ -8,6 +10,7 @@ var precss = require('precss');
 var atImport = require("postcss-import");
 var easyImport = require('postcss-easy-import');
 var postCssModules = require('postcss-modules');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var postCssLoader = [
 	'css-loader?modules',
@@ -19,18 +22,22 @@ var postCssLoader = [
 
 module.exports = {
 	devtool: 'source-map',
-	entry: {
-		index: './src/index.jsx'
-	},
+	entry: [
+		'webpack-dev-server/client?http://localhost:' + PORT,
+		'webpack/hot/dev-server',
+		'./src/index.jsx'
+	],
 	output: {
 		path: './dist',
 		filename: 'js/[name].js'
 	},
 	plugins: [
-		new RemoveWebpackPlugin('./dist', 'hide'),
 		new webpack.NoErrorsPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
+		new HtmlWebpackPlugin({
+			template: './index.html'
+		}),
 		new webpack.optimize.DedupePlugin(),
-		new ExtractTextPlugin("styles.css", {})
 	],
 	resolve: {
 		moduleDirectories: ['node_modules'],
@@ -45,7 +52,7 @@ module.exports = {
 				include: __dirname
 			}, {
 				test: /\.css$/,
-				loader: ExtractTextPlugin.extract('style-loader', postCssLoader.join(''))
+				loaders: ['style-loader', postCssLoader.join('')]
 			}, {
 				test: /\.png$/,
 				loader: "file-loader?name=images/[hash].[ext]"
@@ -79,19 +86,11 @@ module.exports = {
 				functions: require('./src/styles/funcs.css')
 			})
 		];
+	},
+	devServer: {
+		contentBase: './dist',
+		hot: true,
+		host: 'localhost',
+		port: PORT
 	}
 };
-
-if (NODE_ENV == 'production') {
-	postCssLoader.splice(1, 1); // drop human readable names
-
-	module.exports.plugins.push(
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false,
-				drop_console: true,
-				unsafe: true
-			}
-		})
-	);
-}
