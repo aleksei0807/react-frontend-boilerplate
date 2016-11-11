@@ -2,15 +2,13 @@
 
 ## Getting started
 
-`git clone https://github.com/aleksei0807/react-components-boilerplate.git MyComponentDir`
+`git clone https://github.com/aleksei0807/react-frontend-boilerplate.git MyProjectDir`
 
-`cd MyComponentDir`
+`cd MyProjectDir`
 
 `npm i` or `yarn`
 
-`git remote rm origin`
-
-`git remote add origin https://github.com/username/component-name.git`
+`git remote set-url origin https://github.com/username/project-name.git`
 
 `git add .`
 
@@ -18,7 +16,7 @@
 
 `git push origin master`
 
-Write your true name, version, description, keywords, author, bugs and homepage in package.json.
+Write your project name, version, description, keywords, author, bugs and homepage in package.json.
 
 Write your name in LICENSE.
 
